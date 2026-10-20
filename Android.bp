@@ -4,20 +4,44 @@ package {
 
 license {
     name: "external_eigen3_license",
-    license_kinds: ["SPDX-license-identifier-MPL-2.0"],
-    license_text: ["COPYING.MPL2"],
+    visibility: [":__subpackages__"],
+    license_kinds: [
+        "SPDX-license-identifier-MPL-2.0",
+        "SPDX-license-identifier-Apache-2.0",
+        "SPDX-license-identifier-BSD-3-Clause",
+    ],
+    license_text: ["COPYING.MPL2", "COPYING.APACHE", "COPYING.BSD", "COPYING.MINPACK"],
 }
 
 license {
-    name: "external_eigen3_license_apache",
-    license_kinds: ["SPDX-license-identifier-Apache-2.0"],
-    license_text: ["COPYING.APACHE"],
+    name: "external_eigen3_bench_license",
+    visibility: ["//visibility:private"],
+    license_kinds: ["SPDX-license-identifier-GPL-2.0-or-later"],
+    license_text: ["COPYING.GPL"],
 }
 
 license {
-    name: "external_eigen3_license_lgpl",
+    name: "external_eigen3_restricted_code_license",
+    visibility: ["//visibility:private"],
     license_kinds: ["SPDX-license-identifier-LGPL-2.1-only"],
     license_text: ["COPYING.LGPL"],
+}
+
+filegroup {
+    name: "eigen3_bench_srcs",
+    visibility: ["//visibility:private"],
+    licenses: ["external_eigen3_bench_license"],
+    srcs: ["bench/**"],
+}
+
+filegroup {
+    name: "eigen3_restricted_code_srcs",
+    visibility: ["//visibility:private"],
+    licenses: ["external_eigen3_restricted_code_license"],
+    srcs: [
+        "unsupported/Eigen/src/IterativeSolvers/ConstrainedConjGrad.h",
+        "unsupported/Eigen/src/IterativeSolvers/IterationController.h",
+    ],
 }
 
 cc_library_headers {
@@ -25,22 +49,84 @@ cc_library_headers {
     export_include_dirs: ["."],
     vendor_available: true,
     host_supported: true,
-    apex_available: true,
+    product_available: true,
+    ramdisk_available: true,
+    vendor_ramdisk_available: true,
+    recovery_available: true,
+    native_bridge_supported: true,
+    target: {
+        linux_bionic: {
+            enabled: true,
+        },
+        windows: {
+            enabled: true,
+        },
+    },
+    min_sdk_version: "29",
+    sdk_version: "current",
+    apex_available: [
+        "//apex_available:anyapex",
+        "//apex_available:platform",
+        "com.android.neuralnetworks",
+        "test_com.android.neuralnetworks",
+    ],
     cflags: ["-DEIGEN_MPL2_ONLY"],
+    visibility: ["//system/libbase"],
 }
 
 cc_library_static {
     name: "libF77blas-eigen3",
-    srcs: ["BLAS/F77BLAS/*.c"],
+    srcs: ["blas/*.c", "blas/f2c/*.c"],
     export_include_dirs: ["."],
     vendor_available: true,
     host_supported: true,
+    product_available: true,
+    ramdisk_available: true,
+    vendor_ramdisk_available: true,
+    recovery_available: true,
+    native_bridge_supported: true,
+    target: {
+        linux_bionic: {
+            enabled: true,
+        },
+        windows: {
+            enabled: true,
+        },
+    },
+    min_sdk_version: "29",
+    sdk_version: "current",
+    apex_available: [
+        "//apex_available:anyapex",
+        "//apex_available:platform",
+        "com.android.neuralnetworks",
+    ],
+    visibility: ["//system/libbase"],
 }
 
 cc_library_static {
     name: "libF77blasV8-eigen3",
-    srcs: ["BLAS/F77BLAS_V8/*.c"],
+    srcs: ["blas/*.c", "blas/f2c/*.c"],
     export_include_dirs: ["."],
     vendor_available: true,
     host_supported: true,
+    product_available: true,
+    ramdisk_available: true,
+    vendor_ramdisk_available: true,
+    recovery_available: true,
+    native_bridge_supported: true,
+    target: {
+        linux_bionic: {
+            enabled: true,
+        },
+        windows: {
+            enabled: true,
+        },
+    },
+    min_sdk_version: "9",
+    sdk_version: "9",
+    apex_available: [
+        "//apex_available:anyapex",
+        "//apex_available:platform",
+    ],
+    visibility: ["//system/libbase"],
 }
