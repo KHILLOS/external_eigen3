@@ -1,0 +1,46 @@
+package {
+    default_applicable_licenses: ["external_eigen3_license"],
+}
+
+license {
+    name: "external_eigen3_license",
+    license_kinds: ["SPDX-license-identifier-MPL-2.0"],
+    license_text: ["COPYING.MPL2"],
+}
+
+license {
+    name: "external_eigen3_license_apache",
+    license_kinds: ["SPDX-license-identifier-Apache-2.0"],
+    license_text: ["COPYING.APACHE"],
+}
+
+license {
+    name: "external_eigen3_license_lgpl",
+    license_kinds: ["SPDX-license-identifier-LGPL-2.1-only"],
+    license_text: ["COPYING.LGPL"],
+}
+
+cc_library_headers {
+    name: "libeigen3",
+    export_include_dirs: ["."],
+    vendor_available: true,
+    host_supported: true,
+    apex_available: true,
+    cflags: ["-DEIGEN_MPL2_ONLY"],
+}
+
+cc_library_static {
+    name: "libF77blas-eigen3",
+    srcs: ["BLAS/F77BLAS/*.c"],
+    export_include_dirs: ["."],
+    vendor_available: true,
+    host_supported: true,
+}
+
+cc_library_static {
+    name: "libF77blasV8-eigen3",
+    srcs: ["BLAS/F77BLAS_V8/*.c"],
+    export_include_dirs: ["."],
+    vendor_available: true,
+    host_supported: true,
+}
