@@ -1,0 +1,21 @@
+# This project was upgraded with external_updater.
+# Usage: tools/external_updater/updater.sh update external/eigen3
+# For more info, check https://cs.android.com/android/platform/superproject/main/+/main:tools/external_updater/README.md
+
+name: "eigen3"
+description: "Eigen is a C++ template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms."
+third_party {
+  license_type: NOTICE
+  last_upgrade_date {
+    year: 2026
+    month: 10
+    day: 21
+  }
+  homepage: "https://gitlab.com/libeigen/eigen"
+  identifier {
+    type: "Git"
+    value: "https://gitlab.com/libeigen/eigen.git"
+    version: "d71c30c"
+    closest_version: "3.4.1"
+  }
+}

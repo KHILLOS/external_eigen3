@@ -1,0 +1,8 @@
+Eigen is primarily licensed under the Mozilla Public License 2.0 (MPL-2.0).
+Some files are also licensed under:
+- Apache License 2.0 (Eigen/src/Core/arch/Default/BFloat16.h)
+- BSD-3-Clause (CMake build scripts, MINPACK-derived code)
+- LGPL-2.1-only (unsupported/Eigen/src/IterativeSolvers/*)
+- GPL-2.0-or-later (bench/ directory)
+
+See COPYING.MPL2, COPYING.APACHE, COPYING.BSD, COPYING.LGPL, COPYING.GPL, COPYING.MINPACK for full license texts.
