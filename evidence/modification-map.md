@@ -1,10 +1,12 @@
 # Modification Map: external/eigen3
 
 ## Source: BlissOS android-x86 reference (external/eigen3)
-- BlissOS reference: android-generic/eigen3 (commit 4b377b8f3 / 5b1c88c7c)
-- UPSTREAM commits:
+- BlissOS reference tree: /mnt/aosp/android-x86/external/eigen3 @ 9096d83fcb88a2bb80a37417d389972c3c766226
+  (mirror of android-generic/eigen; primary BlissOS mod commit: f6e4c6a "Rename to libeigen3")
+- KhillOS port commits (this repo, branch khillos-17):
   - 4b377b8f3 (initial KhillOS port - basic Android.bp)
   - 5b1c88c7c (AOSP 17 license splitting + extended Android.bp)
+  - 1c6c59c6e (AOSP 17 compliance metadata + NEON [[maybe_unused]] fix)
 - Upstream base: libeigen/eigen 3.4.1 (tag d71c30c)
 
 ## Modifications Applied to UPSTREAM/external_eigen3 (khillos-17 branch)
@@ -41,11 +43,12 @@
 - MODULE_LICENSE_MPL2: Primary SPDX identifier for Soong license module
 - OWNERS: Standard AOSP OWNERS file
 
-### 3. SPDX Headers - NOT REQUIRED
+### 4. SPDX Headers - NOT REQUIRED (and litter removed 2026-10-23)
 Eigen is a header-only template library with multiple licenses handled via license modules in Android.bp. Per-file SPDX headers not standard for this project structure.
+On 2026-10-23, 527 uncommitted `/* SPDX-License-Identifier: MPL-2.0 */` header insertions (add_spdx.py-style script litter, never part of any commit) plus an untracked generated `LICENSE.txt` were found in the working tree and removed via `git checkout -- .` + `rm -f LICENSE.txt`. These were never present in upstream 3.4.1, the AOSP 17 tree, or any khillos-17 commit.
 
 ## Summary
-- **Total files modified:** 5 (4 new metadata + 1 Android.bp extended + 1 source patch)
+- **Total files changed vs upstream 3.4.1 (d71c30c47):** 8 = 6 port files (Android.bp new, NEON fix, METADATA, MODULE_LICENSE_MPL2, NOTICE, OWNERS) + 2 evidence files (this file, nothing-else-disturbed.md)
 - **Source files unchanged except:** 1 NEON fix ([[maybe_unused]])
 - **Logic/behavior changes:** None (fix only)
 - **Build system changes:** Extended Android.bp with AOSP 17 multi-license pattern

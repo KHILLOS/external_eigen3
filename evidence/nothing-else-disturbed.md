@@ -2,8 +2,9 @@
 
 ## Verification Method
 Compared UPSTREAM/external_eigen3 (khillos-17 branch) against:
-1. BlissOS android-x86 reference at external/eigen3 (commits 4b377b8f3, 5b1c88c7c)
+1. BlissOS android-x86 reference at external/eigen3 (HEAD 9096d83f; primary BlissOS mod commit f6e4c6a)
 2. Upstream libeigen/eigen 3.4.1 (tag d71c30c)
+3. AOSP 17 tree at /mnt/aosp/aosp/external/eigen3 (same HEAD 1c6c59c6e; `diff -r` of Eigen/ empty on 2026-10-23)
 
 ## Source Files - Content Verification
 All source/header files contain **identical logic/code** to BlissOS reference and upstream.
@@ -48,12 +49,23 @@ BlissOS fix at line 27 of GeneralBlockPanelKernel.h:
 
 ## Diff Summary
 ```
-Files changed: 6
-Insertions: ~200 (Android.bp extensions + metadata + NEON fix)
-Deletions: 0
+Files changed (3.4.1 d71c30c47 .. khillos-17 1c6c59c6e): 8
+  A Android.bp                                   (+132)
+  M Eigen/src/Core/arch/NEON/GeneralBlockPanelKernel.h (+1/-1)
+  A METADATA (+21), MODULE_LICENSE_MPL2 (+1), NOTICE (+8), OWNERS (+1)
+  A evidence/modification-map.md, evidence/nothing-else-disturbed.md
+Insertions: 278, Deletions: 1
 Source logic changes: 1 (NEON [[maybe_unused]] fix - matches BlissOS)
 Build system: Extended with AOSP 17 multi-license pattern
 ```
+
+## 2026-10-23 Cleanup Verification (post-reaudit)
+- `git checkout -- .` removed 527 uncommitted SPDX-litter modifications (2482 insertions, never committed)
+- `rm -f LICENSE.txt` removed untracked generated MPL-2.0 copy
+- `git status` = "nothing to commit, working tree clean"
+- `grep -rl "SPDX-License-Identifier" Eigen/ unsupported/` = 0 hits (matches AOSP 17 tree)
+- `diff -r /mnt/aosp/aosp/external/eigen3/Eigen ./Eigen` = empty (source parity with AOSP 17 tree)
+- NEON `[[maybe_unused]]` fix preserved at line 27 of GeneralBlockPanelKernel.h
 
 ## Conclusion
 ✅ **NOTHING ELSE DISTURBED** - All modifications are:
