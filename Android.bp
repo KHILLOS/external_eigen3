@@ -74,6 +74,31 @@ cc_library_headers {
     visibility: ["//system/libbase"],
 }
 
+// Compatibility twin of libeigen3 under the module name that pristine AOSP
+// external/eigen used ("libeigen"). Pristine-tree consumers such as
+// external/tensorflow (tensorflow/lite/kernels/Android.bp) depend on
+// "libeigen"; khillos.xml replaces platform/external/eigen with this repo,
+// so the name must resolve. Content and export paths are identical to
+// libeigen3. Upstream AOSP is dropping the duplicate consumers over time
+// (their eigen commit f8c9a7b46 adds include-path compat symlinks for the
+// same reason) — remove this twin when the tree no longer needs it.
+cc_library_headers {
+    name: "libeigen",
+    export_include_dirs: ["."],
+    cflags: ["-DEIGEN_MPL2_ONLY"],
+    vendor_available: true,
+    host_supported: true,
+    apex_available: [
+        "com.android.neuralnetworks",
+        "//apex_available:platform",
+        "com.android.ondevicepersonalization",
+        "com.android.appsearch",
+    ],
+    min_sdk_version: "apex_inherit",
+    sdk_version: "current",
+    visibility: ["//visibility:public"],
+}
+
 cc_library_static {
     name: "libF77blas-eigen3",
     srcs: ["blas/*.c", "blas/f2c/*.c"],
