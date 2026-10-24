@@ -155,3 +155,62 @@ cc_library_static {
     ],
     visibility: ["//system/libbase"],
 }
+
+// Compatibility twins for the module names that pristine AOSP
+// external/eigen's blas/Android.bp provides (libF77blas, libF77blasV8)
+// and external/cblas depends on. khillos.xml replaces platform/external/eigen
+// with this repo, so those names must resolve here. Source set matches the
+// pristine eigen-defaults (the .c sources live under blas/f2c; top-level
+// BLAS drivers are .cpp — the -eigen3 variants' "blas/*.c" glob matches
+// nothing and those modules stay unused).
+cc_defaults {
+    name: "eigen_f77_compat_defaults",
+    srcs: [
+        "blas/single.cpp",
+        "blas/double.cpp",
+        "blas/complex_single.cpp",
+        "blas/complex_double.cpp",
+        "blas/xerbla.cpp",
+        "blas/f2c/complexdots.c",
+        "blas/f2c/srotm.c",
+        "blas/f2c/srotmg.c",
+        "blas/f2c/drotm.c",
+        "blas/f2c/drotmg.c",
+        "blas/f2c/lsame.c",
+        "blas/f2c/dspmv.c",
+        "blas/f2c/ssbmv.c",
+        "blas/f2c/chbmv.c",
+        "blas/f2c/sspmv.c",
+        "blas/f2c/zhbmv.c",
+        "blas/f2c/chpmv.c",
+        "blas/f2c/dsbmv.c",
+        "blas/f2c/zhbmv.c",
+        "blas/f2c/dtbmv.c",
+        "blas/f2c/stbmv.c",
+        "blas/f2c/ctbmv.c",
+        "blas/f2c/ztbmv.c",
+        "blas/f2c/d_cnjg.c",
+        "blas/f2c/r_cnjg.c",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wno-unused-parameter",
+    ],
+    export_include_dirs: ["."],
+}
+
+cc_library_static {
+    name: "libF77blas",
+    vendor_available: true,
+    defaults: ["eigen_f77_compat_defaults"],
+    host_supported: true,
+    native_bridge_supported: true, // TODO(b/153609531): remove when no longer needed.
+}
+
+// Build Eigen using API 9 toolchain for RS Support lib.
+cc_library_static {
+    name: "libF77blasV8",
+    defaults: ["eigen_f77_compat_defaults"],
+    sdk_version: "9",
+    stl: "c++_static",
+}
