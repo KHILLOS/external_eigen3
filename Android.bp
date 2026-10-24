@@ -31,7 +31,7 @@ filegroup {
     name: "eigen3_bench_srcs",
     visibility: ["//visibility:private"],
     licenses: ["external_eigen3_bench_license"],
-    srcs: ["bench/**"],
+    srcs: ["bench/**/*"],
 }
 
 filegroup {
